@@ -1,7 +1,11 @@
 const mongoose = require("mongoose");
 
-function conectionDatabase(url){
- mongoose.connect(url,"/doctorAppointmentV1");
+async function conectionDatabase(url){
+ await mongoose.connect("mongodb://localhost:27017/doctorAppointmentV1").then(()=>{
+  console.log("MongoDB connected..")
+}).catch((e)=>{
+  console.log("Error in connecting Mongodb ",e);
+})
 }
 
 module.exports={

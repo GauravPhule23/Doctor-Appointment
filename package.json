@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "author": "Gaurav Phule",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "express": "^4.21.2",
-    "mongoose": "^8.9.5",
+    "mongoose": "^7.6.0",
     "nodemon": "^3.1.9"
   }
 }

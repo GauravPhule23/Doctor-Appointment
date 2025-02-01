@@ -18,6 +18,4 @@ const patientModel = new mongoose.Schema({
 
 const Patient = mongoose.model("Patient",patientModel);
 
-module.exports = {
-  Patient,
-}
+module.exports =Patient
