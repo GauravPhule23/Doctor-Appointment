@@ -1,6 +1,8 @@
 const express = require("express");
-// const mongoose = require("mongoose");
-const patientRoutes = require("./Routes/patientSignin"); // ✅ Import correctly
+
+const patientSigninRoutes = require("./Routes/patientAuth"); 
+const doctorSigninRoutes = require("./Routes/doctorAuth"); 
+
 const { conectionDatabase } = require("./connection");
 
 const app = express();
@@ -14,7 +16,8 @@ app.get("/", (req, res) => {
 });
 
 // ✅ Use the patient routes correctly
-app.use("/api/patient", patientRoutes); 
+app.use("/api/patientAuth", patientSigninRoutes); 
+app.use("/api/doctorAuth", doctorSigninRoutes); 
 
 const PORT = 8001;
 app.listen(PORT, () => {

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-async function conectionDatabase(url){
+async function conectionDatabase(){
  await mongoose.connect("mongodb://localhost:27017/doctorAppointmentV1").then(()=>{
   console.log("MongoDB connected..")
 }).catch((e)=>{

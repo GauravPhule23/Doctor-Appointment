@@ -6,7 +6,7 @@ async function patientSignIN(req, res) {
         const { name, email, password, date, phone, gender } = req.body;
 
         if (!name || !email || !password || !date || !phone || !gender) {
-            return res.status(400).json({ error: "Name, email, and password are required" });
+            return res.status(400).json({ error: "Please fill the required fields" });
         }
 
         const newPatient = await Patient.create({
@@ -28,8 +28,8 @@ async function doctorSignIN(req, res) {
     try {
         const { doctorName, email, password, dob, phone, gender, speciality, experienceOf, fees } = req.body;
 
-        if (!doctorName || !email || !password || !speciality|| !date || !phone || !gender|| !experienceOf || !fees) {
-            return res.status(400).json({ error: "Doctor name, email, password, and speciality are required" });
+        if (!doctorName || !email || !password || !speciality|| !dob || !phone || !gender|| !experienceOf || !fees) {
+            return res.status(400).json({ error: "Please fill the required fields" });
         }
 
         const newDoctor = await Doctor.create({
