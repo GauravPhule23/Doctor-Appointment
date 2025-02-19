@@ -3,15 +3,17 @@ const Doctor = require("../Models/doctorSchema");
 
 async function SignUp(req, res) {
     if(req.body.role == "Patient"){
+        
         try {
-            const { name, email, password, date, phone, gender } = req.body;
+            const { fullname, email, password, date, phone, gender } = req.body;
+            console.log(fullname, email, password, date, phone, gender)
     
-            if (!name || !email || !password || !date || !phone || !gender) {
+            if (!fullname || !email || !password || !date || !phone || !gender) {
                 return res.status(400).json({ error: "Please fill the required fields" });
             }
     
             const newPatient = await Patient.create({
-                patientName: name,
+                fullName: fullname,
                 email,
                 password,
                 dob: date,
@@ -26,7 +28,7 @@ async function SignUp(req, res) {
     }else{
         try {
             const { doctorName, email, password, dob, phone, gender, speciality, experienceOf, fees } = req.body;
-    
+           
             if (!doctorName || !email || !password || !speciality || !dob || !phone || !gender || !experienceOf || !fees) {
                 return res.status(400).json({ error: "Please fill the required fields" });
             }
@@ -56,20 +58,21 @@ async function SignUp(req, res) {
 
 async function Login(req, res) {
     const { email, password, role } = req.body
+    console.log(role)
     if(role == "Patient"){
         try {
             const token = await Patient.checkTokenForPatient(email, password)
-            return res.cookie("token", token)
-        } catch (e) {
-            res.status(401).json({ error: "Denied authentication", message: e, details: error.message });
+            return res.status(200).cookie("token", token).json({message:token})
+        } catch (error) {
+            res.status(401).json({ error: "Denied authentication", details: error.message });
         }
         
     }else{
         try {
             const token = await Doctor.checkTokenForDoctor(email, password)
-            return res.cookie("token", token)
-        } catch (e) {
-            res.status(401).json({ error: "Denied authentication", message: e, details: error.message });
+            return res.status(200).cookie("token", token).json({message:token})
+        } catch (error) {
+            res.status(401).json({ error: "Denied authentication",  details: error.message });
         }
 
     }

@@ -6,6 +6,7 @@ const patientModel = new mongoose.Schema({
   fullName: { type: String, required: true, },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  salt:{type:String},
   dob: { type: Date, required: true },
   phone: { type: String, required: true },
   gender: { type: String, enum: ["Male", "Female", "Others"], required: true },
@@ -36,7 +37,8 @@ patientModel.static("checkTokenForPatient", async function (email, password) {
   const hashedPassword = patient.password
   const userPassword = createHmac("sha256", salt).update(password).digest("hex")
   if (userPassword !== hashedPassword) throw new Error("Incorrect password")
-  const token = createToken
+  const token = await createToken(patient)
+  console.log(token)
   return token
 })
 

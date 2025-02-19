@@ -17,19 +17,21 @@ async function createToken(user){
     fees:user.fees
   }
 
+  const token = await JWT.sign(payload,secreteKey)
+  return token
  }else{
-  const payload ={
-    _id : user._id,
-    fullName:user.fullName,
-    role:user.role,
-    email:user.email,
-    gender:user.gender,
-    DP:user.profileUrl,
+    const payload ={
+      _id : user._id,
+      fullName:user.fullName,
+      role:user.role,
+     email:user.email,
+     gender:user.gender,
+     DP:user.profileUrl,
    
-  }
+    }
+    const token = await JWT.sign(payload,secreteKey)
+    return token
  }
- const token = await JWT.sign(payload,secreteKey)
- return token
 }
 
 function validateToken(token){
