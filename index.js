@@ -1,23 +1,27 @@
 const express = require("express");
+const cookieParser = require("cookie-parser")
+const checkToken = require("./Midelware/auth")
 
-const patientSigninRoutes = require("./Routes/patientAuth"); 
-const doctorSigninRoutes = require("./Routes/doctorAuth"); 
+// const patientSigninRoutes = require("./Routes/patientAuth"); 
+const authRoute = require("./Routes/AuthRoute"); 
 
 const { conectionDatabase } = require("./connection");
 
 const app = express();
 
-app.use(express.json());  
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
+app.use(express.json());  
+app.use(checkToken())
 
-// ✅ Test API Route
+
 app.get("/", (req, res) => {
   res.send("Hello from server");
 });
 
-// ✅ Use the patient routes correctly
-app.use("/api/patientAuth", patientSigninRoutes); 
-app.use("/api/doctorAuth", doctorSigninRoutes); 
+
+app.use("/api/Authentication", authRoute); 
+// app.use("/api/doctorAuth", doctorSigninRoutes); 
 
 const PORT = 8001;
 app.listen(PORT, () => {
