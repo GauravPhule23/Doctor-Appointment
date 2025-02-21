@@ -8,6 +8,7 @@ const doctorModel = new mongoose.Schema({
   password: { type: String, required: true },
   salt: { type: String},
   dob: { type: Date, required: true },
+  ratingAvg: { type: Number, default:0},
   phone: { type: String, required: true },
   gender: { type: String, enum: ["Male", "Female", "Others"], required: true },
   profileUrl:{type:String},
@@ -21,6 +22,11 @@ const doctorModel = new mongoose.Schema({
     eveningRange :{type:String}
   }],
   bookedSlots:[{
+    patientId:{type:mongoose.Types.ObjectId, ref:"Patient"},
+    bookedDate:{type:Date},
+    bookedSlot:{type:String}
+  }],
+  completedSlots:[{
     patientId:{type:mongoose.Types.ObjectId, ref:"Patient"},
     bookedDate:{type:Date},
     bookedSlot:{type:String}
