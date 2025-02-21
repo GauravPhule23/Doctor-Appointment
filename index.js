@@ -4,6 +4,7 @@ const checkToken = require("./Midelware/auth")
 
 // const patientSigninRoutes = require("./Routes/patientAuth"); 
 const authRoute = require("./Routes/AuthRoute"); 
+const adminRoute = require("./Routes/adminRoute"); 
 
 const { conectionDatabase } = require("./connection");
 
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
 });
 
 
+app.use("/api/admin", adminRoute); 
 app.use("/api/Authentication", authRoute); 
 // app.use("/api/doctorAuth", doctorSigninRoutes); 
 

@@ -81,7 +81,7 @@ async function Login(req, res) {
 
 
 async function Logout(req, res) {
-    res.clearCookie("token")
+    res.status(200).clearCookie("token").json({message:"logged out successfully"})
 }
 
 
