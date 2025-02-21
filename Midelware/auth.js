@@ -7,9 +7,10 @@ function checkToken(cookieName){
       return next()
     }
     try {
+      
       const payload = validateToken(tokenValue)
       req.user = payload
-
+      
     } catch (error) {
       
     }

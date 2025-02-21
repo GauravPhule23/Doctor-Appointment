@@ -6,7 +6,7 @@ async function SignUp(req, res) {
         
         try {
             const { fullname, email, password, date, phone, gender } = req.body;
-            console.log(fullname, email, password, date, phone, gender)
+            
     
             if (!fullname || !email || !password || !date || !phone || !gender) {
                 return res.status(400).json({ error: "Please fill the required fields" });
@@ -58,7 +58,7 @@ async function SignUp(req, res) {
 
 async function Login(req, res) {
     const { email, password, role } = req.body
-    console.log(role)
+   
     if(role == "Patient"){
         try {
             const token = await Patient.checkTokenForPatient(email, password)
