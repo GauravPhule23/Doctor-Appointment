@@ -52,7 +52,7 @@ patientModel.static("checkTokenForPatient", async function (email, password) {
   const userPassword = createHmac("sha256", salt).update(password).digest("hex")
   if (userPassword !== hashedPassword) throw new Error("Incorrect password")
   const token = await createToken(patient)
-  console.log(token)
+
   return token
 })
 

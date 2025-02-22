@@ -2,12 +2,12 @@ const express = require("express");
 const cookieParser = require("cookie-parser")
 const checkToken = require("./Midelware/auth")
 
-// const patientSigninRoutes = require("./Routes/patientAuth"); 
 const authRoute = require("./Routes/AuthRoute"); 
 const adminRoute = require("./Routes/adminRoute"); 
+const ratingRoute = require("./Routes/ratingRoute");
+const profileRoute = require("./Routes/profile");
 
 const { conectionDatabase } = require("./connection");
-const ratingRoute = require("./Routes/ratingRoute");
 
 const app = express();
 
@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 app.use("/api/admin", adminRoute); 
 app.use("/api/Authentication", authRoute); 
 app.use("/api/rating", ratingRoute); 
+app.use("/api/self", profileRoute); 
 // app.use("/api/doctorAuth", doctorSigninRoutes); 
 
 const PORT = 8001;
