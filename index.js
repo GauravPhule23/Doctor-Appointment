@@ -6,6 +6,7 @@ const authRoute = require("./Routes/AuthRoute");
 const adminRoute = require("./Routes/adminRoute"); 
 const ratingRoute = require("./Routes/ratingRoute");
 const profileRoute = require("./Routes/profile");
+const appointmentRouter = require("./Routes/appointmentRoutes");
 
 const { conectionDatabase } = require("./connection");
 
@@ -26,6 +27,7 @@ app.use("/api/admin", adminRoute);
 app.use("/api/Authentication", authRoute); 
 app.use("/api/rating", ratingRoute); 
 app.use("/api/self", profileRoute); 
+app.use("/api/appointment", appointmentRouter); 
 // app.use("/api/doctorAuth", doctorSigninRoutes); 
 
 const PORT = 8001;
