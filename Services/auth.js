@@ -8,6 +8,7 @@ async function createToken(user){
     _id : user._id,
     fullName:user.fullName,
     role:user.role,
+    rating:user.ratingAvg,
     email:user.email,
     phone:user.phone,
     gender:user.gender,

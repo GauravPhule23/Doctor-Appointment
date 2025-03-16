@@ -12,26 +12,7 @@ const patientModel = new mongoose.Schema({
   gender: { type: String, enum: ["Male", "Female", "Others"], required: true },
   profileUrl: { type: String },
   role: { type: String, enum: ["Patient"], default: "Patient" },
-  bookings: [{
-    doctorID: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
-    bookingDate: { type: Date },
-    bookingSlot: { tyoe: String },
-    isApproved: { type: String, enum: ["Pending", "Confirm", "Rejected"], default: "Pending" }
-  }],
-  completedBookings: [{
-    doctorID: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
-    bookingDate: { type: Date },
-    bookingSlot: { tyoe: String },
-    
-  }],
-  rejectedBookings: [{
-    doctorID: { type: mongoose.Schema.Types.ObjectId, ref: "Doctor" },
-    bookingDate: { type: Date },
-    bookingSlot: { tyoe: String },
-    rejectedBy: { type: String, enum: ["Self", "Doctor"] },
-    reason: { type: String}
-
-  }]
+  
 });
 
 patientModel.pre("save", async function (next) {

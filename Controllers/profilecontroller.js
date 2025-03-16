@@ -6,21 +6,27 @@ async function profileView(req, res) {
     res.status(400).json({ message: "please login"})
       
   }else{
+    try {
+          res.status(200).json(req.user)
+        } catch (e) {
+          res.status(400).json({ message: `No ${req.user.role == "Doctor"?"Doctor":"Patient"} found, please login`, error: e })
+        }
 
-    if (req.user.role == "Doctor") {
-      try {
-        res.status(200).json(req.user)
-      } catch (e) {
-        res.status(400).json({ message: "No Doctor found, please login", error: e })
-      }
-    } else {
-      try {
-        res.status(200).json(req.user)
-      } catch (e) {
-        res.status(400).json({ message: "No Patient found, please login", error: e })
-      }
+
+    // if (req.user.role == "Doctor") {
+    //   try {
+    //     res.status(200).json(req.user)
+    //   } catch (e) {
+    //     res.status(400).json({ message: "No Doctor found, please login", error: e })
+    //   }
+    // } else {
+    //   try {
+    //     res.status(200).json(req.user)
+    //   } catch (e) {
+    //     res.status(400).json({ message: "No Patient found, please login", error: e })
+    //   }
   
-    }
+    // }
   }
 }
 

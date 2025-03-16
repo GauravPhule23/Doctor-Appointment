@@ -24,7 +24,7 @@ async function ratingUpdate(req,res){
         count = count + 1
       });
       const avg = rating / count
-      console.log(avg)
+      // console.log(avg)
 
       const oneDoc2= await Rating.findOne({forDoctor:forDoctor})
       console.log(oneDoc2)
@@ -35,7 +35,7 @@ async function ratingUpdate(req,res){
       });
       
       console.log(oneDoc)
-      oneDoc.forDoctor.ratingAvg = avg
+      // oneDoc.forDoctor.ratingAvg = avg
       oneDoc.forDoctor.ratingAvg = avg;
       await oneDoc.forDoctor.save(); // Save changes to the database
 

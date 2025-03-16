@@ -21,28 +21,7 @@ const doctorModel = new mongoose.Schema({
     dayRange :{type:String},
     eveningRange :{type:String}
   }],
-  bookedSlots:[{
-    patientId:{type:mongoose.Types.ObjectId, ref:"Patient"},
-    bookedDate:{type:Date},
-    bookedSlot:{type:String}
-  }],
-  completedSlots:[{
-    patientId:{type:mongoose.Types.ObjectId, ref:"Patient"},
-    bookedDate:{type:Date},
-    bookedSlot:{type:String}
-  }],
-  pendingApproval:[{
-    patientId:{type:mongoose.Types.ObjectId,ref:"Patient"},
-    requestedDate:{type:Date},
-    requestedSlot:{type:String}
-  }],
-  rejectedApproval:[{
-    patientId:{type:mongoose.Types.ObjectId,ref:"Patient"},
-    requestedDate:{type:Date},
-    requestedSlot:{type:String},
-    rejectedDate:{type:Date},
-    reason:{type:String}
-  }]
+  
 });
 
 doctorModel.pre("save", async function (next) {
