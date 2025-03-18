@@ -39,30 +39,34 @@ async function updatePatientpassword(password, user, oldPassword){
 
 
 async function updatePatient(req,res){
-  try {
-    const {fullName, newpassword, oldPassword, dob, phone} = req.body
-    
-    if(fullName != req.user.fullName){
-      fullName?updatePatientName(fullName,req.user):console.log("no change in name")
+  if (req.user.role == "Patient" || req.user.role == "Admin") {
+    try {
+      const {fullName, newpassword, oldPassword, dob, phone} = req.body
+      
+      if(fullName != req.user.fullName){
+        fullName?updatePatientName(fullName,req.user):console.log("no change in name")
+      }
+      if(dob != req.user.dob){
+        dob?updatePatientDob(dob,req.user):console.log("no change in dob")
+      }
+      if(phone != req.user.phone){
+        phone?updatePatientPhone(phone,req.user):console.log("no change in phone")
+      }
+      const updateUser = await Patient.findById(req.user._id)
+      // console.log(updateUser)
+      const forPass = await updateUser.isPassCorrect(newpassword)
+      // console.log(forPass)
+      if(!(forPass)){
+        console.log("in pass block")
+        newpassword?updatePatientpassword(newpassword,req.user,oldPassword):console.log("no change in password")
+        console.log("after pass exe")
+      }
+      res.status(200).json({message:"Updation sucessfull"})
+    } catch (error) {
+      res.status(500).json({message:"error in updation "})
     }
-    if(dob != req.user.dob){
-      dob?updatePatientDob(dob,req.user):console.log("no change in dob")
-    }
-    if(phone != req.user.phone){
-      phone?updatePatientPhone(phone,req.user):console.log("no change in phone")
-    }
-    const updateUser = await Patient.findById(req.user._id)
-    // console.log(updateUser)
-    const forPass = await updateUser.isPassCorrect(newpassword)
-    // console.log(forPass)
-    if(!(forPass)){
-      console.log("in pass block")
-      newpassword?updatePatientpassword(newpassword,req.user,oldPassword):console.log("no change in password")
-      console.log("after pass exe")
-    }
-    res.status(200).json({message:"Updation sucessfull"})
-  } catch (error) {
-    res.status(500).json({message:"error in updation "})
+  }else{
+    res.status(401).json({message:"Not authorized to change details of the patients"})
   }
 }
 
