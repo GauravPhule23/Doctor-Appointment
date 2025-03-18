@@ -25,6 +25,7 @@ async function createToken(user){
       _id : user._id,
       fullName:user.fullName,
       role:user.role,
+      dob:user.dob,
      email:user.email,
      gender:user.gender,
      DP:user.profileUrl,

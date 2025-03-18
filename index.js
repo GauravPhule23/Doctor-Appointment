@@ -5,6 +5,7 @@ const checkToken = require("./Midelware/auth")
 const authRoute = require("./Routes/AuthRoute"); 
 const adminRoute = require("./Routes/adminRoute"); 
 const ratingRoute = require("./Routes/ratingRoute");
+const patientRoute = require("./Routes/patientsRoutes");
 const profileRoute = require("./Routes/profile");
 const appointmentRouter = require("./Routes/appointmentRoutes");
 
@@ -23,11 +24,12 @@ app.get("/", (req, res) => {
 });
 
 
-app.use("/api/admin", adminRoute); 
-app.use("/api/Authentication", authRoute); 
-app.use("/api/rating", ratingRoute); 
-app.use("/api/self", profileRoute); 
-app.use("/api/appointment", appointmentRouter); 
+app.use("/api/v1/admin", adminRoute); 
+app.use("/api/v1/Authentication", authRoute); 
+app.use("/api/v1/rating", ratingRoute); 
+app.use("/api/v1/self", profileRoute); 
+app.use("/api/v1/appointment", appointmentRouter); 
+app.use("/api/v1/patient", patientRoute); 
 // app.use("/api/doctorAuth", doctorSigninRoutes); 
 
 const PORT = 8001;

@@ -10,7 +10,7 @@ const patientModel = new mongoose.Schema({
   dob: { type: Date, required: true },
   phone: { type: String, required: true },
   gender: { type: String, enum: ["Male", "Female", "Others"], required: true },
-  profileUrl: { type: String },
+  dpUrl: { type: String },
   role: { type: String, enum: ["Patient"], default: "Patient" },
   
 });
@@ -35,6 +35,28 @@ patientModel.static("checkTokenForPatient", async function (email, password) {
   const token = await createToken(patient)
 
   return token
+})
+// patientModel.methods.isPassCorrect(password){
+//   const patient = await this.findOne({ email })
+//   if (!patient) throw new Error("No user Found")
+//   const salt = patient.salt
+//   const hashedPassword = patient.password
+//   const userPassword = createHmac("sha256", salt).update(password).digest("hex")
+//   if (userPassword !== hashedPassword) {
+//     return false
+//   }
+//   return true
+// };
+patientModel.method("isPassCorrect", async function (password){
+  const patient = await this
+  if (!patient) throw new Error("No user Found")
+  const salt = patient.salt
+  const hashedPassword = patient.password
+  const userPassword = createHmac("sha256", salt).update(password).digest("hex")
+  if (userPassword !== hashedPassword) {
+    return false
+  }
+  return true
 })
 
 const Patient = mongoose.model("Patient", patientModel);
