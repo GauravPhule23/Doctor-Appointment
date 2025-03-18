@@ -58,7 +58,7 @@ async function appointmentCancle(req, res) {
     user = await Patient.findById(info.patient)
   }else if(req.user.role == "Doctor"){
     user = await Doctor.findById(info.doctor)
-  }else{
+  }else if (req.user.role == "Admin"){
     admin = await Admin.findById(req.user._id)
   }
   // req.user.role == "Patient"?user = await Patient.findById(info.patient):user = await Doctor.findById(info.doctor);
@@ -75,6 +75,8 @@ async function appointmentCancle(req, res) {
 
   const appointmentCancle =await Cancled.create({
     appointment: Id,
+    patient:cancle.patient,
+    doctor:cancle.doctor,
     reason,
     cancledBY: req.user.role
   })

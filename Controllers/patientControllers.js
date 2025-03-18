@@ -1,4 +1,8 @@
 const Patient = require("../Models/patientSchema")
+const Doctor = require("../Models/doctorSchema")
+const Pending = require("../Models/pendingSchema")
+const Appointment = require("../Models/AppointmentSchema")
+const Cancled = require("../Models/cancledSchema")
 
 
 async function updatePatientName(fullName, user){
@@ -36,8 +40,6 @@ async function updatePatientpassword(password, user, oldPassword){
   
 }
 
-
-
 async function updatePatient(req,res){
   if (req.user.role == "Patient" || req.user.role == "Admin") {
     try {
@@ -70,5 +72,37 @@ async function updatePatient(req,res){
   }
 }
 
+async function getDoctors(req,res){
+  const doctorList = await Doctor.find({}).select("-password -salt")
+  res.status(200).json(doctorList)
+}
 
-module.exports = updatePatient
+async function getDoctor(req,res){
+  const doctorInfo = await Doctor.findById(req.params.id).select("-password -salt")
+  console.log(doctorInfo)
+  res.status(200).json(doctorInfo)
+}
+
+async function PendingAppointment(req,res){
+  const pendings = await Appointment.find({patient:req.user._id,status:"Pending"})
+  console.log(pendings)
+  res.status(200).json(pendings)
+}
+
+async function approvedAppointment(req,res){
+  const approved = await Appointment.find({patient:req.user._id, status:"Approved"})
+  console.log(approved)
+  res.status(200).json(approved)
+}
+async function cancledAppointment(req,res){
+  const cancled = await Cancled.find({patient:req.user._id}).populate("appointment")
+  console.log(cancled)
+  res.status(200).json(cancled)
+}
+async function completedAppointment(req,res){
+  const complete = await Appointment.find({patient:req.user._id})
+  console.log(complete)
+  res.status(200).json(complete)
+}
+
+module.exports = {updatePatient, getDoctors, getDoctor, PendingAppointment, approvedAppointment, cancledAppointment, completedAppointment}

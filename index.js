@@ -10,6 +10,7 @@ const profileRoute = require("./Routes/profile");
 const appointmentRouter = require("./Routes/appointmentRoutes");
 
 const { conectionDatabase } = require("./connection");
+const forPatient = require("./Midelware/forPatient");
 
 const app = express();
 
