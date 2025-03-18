@@ -49,6 +49,11 @@ async function appointmentBooking(req, res) {
 
 
 async function appointmentCancle(req, res) {
+  
+  if(req.user.role != "Patient" && req.user.role != "Doctor" && req.user.role != "Admin"){
+    throw new Error("Not authorized")
+  }
+  
   const Id = req.params.appointmentId
   const info = Appointment.findById(Id)
   

@@ -45,6 +45,18 @@ doctorModel.static("checkTokenForDoctor", async function (email, password) {
   return token
 })
 
+doctorModel.method("isPassCorrect", async function (password){
+  const doctor = await this
+  if (!doctor) throw new Error("No user Found")
+  const salt = doctor.salt
+  const hashedPassword = doctor.password
+  const userPassword = createHmac("sha256", salt).update(password).digest("hex")
+  if (userPassword !== hashedPassword) {
+    return false
+  }
+  return true
+})
+
 const Doctor = mongoose.model("Doctor", doctorModel)
 
 module.exports =Doctor

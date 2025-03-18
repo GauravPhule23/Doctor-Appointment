@@ -6,11 +6,12 @@ const authRoute = require("./Routes/AuthRoute");
 const adminRoute = require("./Routes/adminRoute"); 
 const ratingRoute = require("./Routes/ratingRoute");
 const patientRoute = require("./Routes/patientsRoutes");
+const doctorRoute = require("./Routes/doctorRoutes");
 const profileRoute = require("./Routes/profile");
 const appointmentRouter = require("./Routes/appointmentRoutes");
 
 const { conectionDatabase } = require("./connection");
-const forPatient = require("./Midelware/forPatient");
+// const forPatient = require("./Midelware/forPatient");
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/v1/rating", ratingRoute);
 app.use("/api/v1/self", profileRoute); 
 app.use("/api/v1/appointment", appointmentRouter); 
 app.use("/api/v1/patient", patientRoute); 
+app.use("/api/v1/doctor", doctorRoute); 
 // app.use("/api/doctorAuth", doctorSigninRoutes); 
 
 const PORT = 8001;

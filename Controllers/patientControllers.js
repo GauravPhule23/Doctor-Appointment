@@ -1,6 +1,6 @@
 const Patient = require("../Models/patientSchema")
 const Doctor = require("../Models/doctorSchema")
-const Pending = require("../Models/pendingSchema")
+// const Pending = require("../Models/pendingSchema")
 const Appointment = require("../Models/AppointmentSchema")
 const Cancled = require("../Models/cancledSchema")
 
