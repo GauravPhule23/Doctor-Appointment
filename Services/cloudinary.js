@@ -16,7 +16,9 @@ async function uploadOnCLoudinary(localPath){
       resource_type:"image",
     })
     console.log("Image uploaded sucessfully ", result, " url of cloudinary : ",result.url)
-    return result
+
+    fs.unlinkSync(localPath) // Unlinks the file form the local server due to Succesful uploadation on the cloudinary
+    return result.url
   } catch (error) {
     fs.unlinkSync(localPath) // Unlinks the file form the local server due to failed uploadation on the cloudinary
     return null

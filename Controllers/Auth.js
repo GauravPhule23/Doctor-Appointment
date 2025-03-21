@@ -1,5 +1,6 @@
 const Patient = require("../Models/patientSchema");
 const Doctor = require("../Models/doctorSchema");
+const uploadOnCLoudinary = require("../Services/cloudinary");
 
 async function SignUp(req, res) {
     if(req.body.role == "Patient"){
@@ -9,8 +10,11 @@ async function SignUp(req, res) {
             
     
             if (!fullname || !email || !password || !date || !phone || !gender) {
-                return res.status(400).json({ error: "Please fill the required fields" });
+                return res.status(400).json({ error: "Please fill the required fields of Patient" });
             }
+
+            const DpLocalPath = req.file?.path;
+            const cloudinaryResult = await uploadOnCLoudinary(DpLocalPath)
     
             const newPatient = await Patient.create({
                 fullName: fullname,
@@ -18,7 +22,8 @@ async function SignUp(req, res) {
                 password,
                 dob: date,
                 phone,
-                gender
+                gender,
+                dpUrl:cloudinaryResult
             });
     
             res.status(201).json({ message: "Patient registered successfully", patient: newPatient });
@@ -30,8 +35,10 @@ async function SignUp(req, res) {
             const { doctorName, email, password, dob, phone, gender, speciality, experienceOf, fees } = req.body;
            
             if (!doctorName || !email || !password || !speciality || !dob || !phone || !gender || !experienceOf || !fees) {
-                return res.status(400).json({ error: "Please fill the required fields" });
+                return res.status(400).json({ error: "Please fill the required fields of Doctor" });
             }
+            const DpLocalPath = req.file?.path;
+            const cloudinaryResult = await uploadOnCLoudinary(DpLocalPath)
     
             const newDoctor = await Doctor.create({
                 doctorName,
@@ -42,7 +49,8 @@ async function SignUp(req, res) {
                 gender,
                 speciality,
                 experienceOf,
-                fees
+                fees,
+                dpUrl:cloudinaryResult
             });
     
             res.status(201).json({ message: "Doctor registered successfully", doctor: newDoctor });
