@@ -11,7 +11,7 @@ const doctorModel = new mongoose.Schema({
   ratingAvg: { type: Number, default:0},
   phone: { type: String, required: true },
   gender: { type: String, enum: ["Male", "Female", "Others"], required: true },
-  profileUrl:{type:String},
+  dpUrl:{type:String},
   role: { type: String, enum: ["Doctor"], default: "Doctor" },
   speciality: { type: String, requiredd: true },
   experienceOf: { type: Number, required: true },
