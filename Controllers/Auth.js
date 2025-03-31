@@ -6,54 +6,59 @@ async function SignUp(req, res) {
     if(req.body.role == "Patient"){
         
         try {
-            const { fullname, email, password, date, phone, gender } = req.body;
+            const { fullname, email, password, dob, gender } = req.body;
             
     
-            if (!fullname || !email || !password || !date || !phone || !gender) {
+            if (!fullname || !email || !password || !dob  || !gender) {
                 return res.status(400).json({ error: "Please fill the required fields of Patient" });
             }
 
             const DpLocalPath = req.file?.path;
-            const cloudinaryResult = await uploadOnCLoudinary(DpLocalPath)
+            const cloudinaryResult = DpLocalPath?await uploadOnCLoudinary(DpLocalPath):""
     
             const newPatient = await Patient.create({
                 fullName: fullname,
                 email,
                 password,
-                dob: date,
-                phone,
+                dob,
                 gender,
                 dpUrl:cloudinaryResult
             });
     
-            res.status(201).json({ message: "Patient registered successfully", patient: newPatient });
+            res.status(201).json({ message: "Patient registered successfully", patient: await Patient.findById(newPatient._id).select("-password -salt") });
         } catch (error) {
-            res.status(500).json({ error: "Internal Server Error", details: error.message });
+            res.status(500).json({ error: "Internal Server Error 2", details: error.message });
         }
     }else{
         try {
-            const { doctorName, email, password, dob, phone, gender, speciality, experienceOf, fees } = req.body;
-           
-            if (!doctorName || !email || !password || !speciality || !dob || !phone || !gender || !experienceOf || !fees) {
+            console.log("in auth controller");
+            console.log(req.body);
+            
+            const { fullname, email, password, dob, gender, speciality, experienceOf} = req.body;
+            console.log(fullname, email, password, dob, gender, speciality, experienceOf);
+            
+            if (!fullname || !email || !password || !speciality || !dob  || !gender || !experienceOf ) {
                 return res.status(400).json({ error: "Please fill the required fields of Doctor" });
             }
+            console.log("bfr dplocal path");
             const DpLocalPath = req.file?.path;
-            const cloudinaryResult = await uploadOnCLoudinary(DpLocalPath)
+            const cloudinaryResult = DpLocalPath? await uploadOnCLoudinary(DpLocalPath):""
+            console.log("aftr cloudinary");
     
             const newDoctor = await Doctor.create({
-                doctorName,
+                fullname,
                 email,
                 password,
                 dob,
-                phone,
                 gender,
                 speciality,
                 experienceOf,
-                fees,
                 dpUrl:cloudinaryResult
             });
+            
+            
     
-            res.status(201).json({ message: "Doctor registered successfully", doctor: newDoctor });
+            res.status(201).json({ message: "Doctor registered successfully", doctor: await Doctor.findById(newDoctor._id).select("-password -salt") });
         } catch (error) {
             res.status(500).json({ error: "Internal Server Error", details: error.message });
         }
@@ -65,9 +70,13 @@ async function SignUp(req, res) {
 //     }
 
 async function Login(req, res) {
+    // console.log(req);
+    
     const { email, password, role } = req.body
    
+    console.log("Inside login "+email+" "+password);
     if(role == "Patient"){
+        console.log(email+" "+password);
         try {
             const token = await Patient.checkTokenForPatient(email, password)
             return res.status(200).cookie("token", token).json({message:token})
@@ -77,6 +86,8 @@ async function Login(req, res) {
         
     }else{
         try {
+            console.log("inside login Doctor "+email+" "+password);
+            
             const token = await Doctor.checkTokenForDoctor(email, password)
             return res.status(200).cookie("token", token).json({message:token})
         } catch (error) {

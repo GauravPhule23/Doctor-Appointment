@@ -8,7 +8,7 @@ const patientModel = new mongoose.Schema({
   password: { type: String, required: true },
   salt:{type:String},
   dob: { type: Date, required: true },
-  phone: { type: String, required: true },
+  phone: { type: String},
   gender: { type: String, enum: ["Male", "Female", "Others"], required: true },
   dpUrl: { type: String },
   role: { type: String, enum: ["Patient"], default: "Patient" },

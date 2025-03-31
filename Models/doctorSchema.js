@@ -9,13 +9,13 @@ const doctorModel = new mongoose.Schema({
   salt: { type: String},
   dob: { type: Date, required: true },
   ratingAvg: { type: Number, default:0},
-  phone: { type: String, required: true },
+  phone: { type: String,},
   gender: { type: String, enum: ["Male", "Female", "Others"], required: true },
   dpUrl:{type:String},
   role: { type: String, enum: ["Doctor"], default: "Doctor" },
   speciality: { type: String, requiredd: true },
   experienceOf: { type: Number, required: true },
-  fees: { type: Number, required: true },
+  fees: { type: Number,},
   isHoliday: { type: Boolean, default: false },
   offeredSlot:[{
     dayRange :{type:String},
@@ -34,8 +34,10 @@ doctorModel.pre("save", async function (next) {
   this.password = hashedPassword
 })
 
-doctorModel.static("checkTokenForDoctor", async function (email, password) {
-  const doctor = await this.findOne({ email })
+doctorModel.static("checkTokenForDoctor", async function (email1, password) {
+  // console.log(email1)
+  const doctor = await this.findOne({ email:email1 })
+  // console.log(doctor)
   if (!doctor) throw new Error("No user Found")
   const salt = doctor.salt
   const hashedPassword = doctor.password
