@@ -1,6 +1,6 @@
 const JWT = require("jsonwebtoken")
 
-const secreteKey = "DocUser123542"
+const secreteKey = process.env.JWT_SECRETE_KEY
 
 async function createToken(user){
  if(user.role == "Doctor"){

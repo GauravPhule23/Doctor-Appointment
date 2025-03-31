@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 // ✅ Proper CORS Configuration
 app.use(cors({
-  origin: "http://localhost:5173", // ✅ Allow all origins TEMPORARILY for debugging
+  origin: process.env.CORS_ORIGIN_URL, // ✅ Allow all origins TEMPORARILY for debugging
   credentials: true,
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
   allowedHeaders: "Content-Type, Authorization"
@@ -68,7 +68,7 @@ app.use("/api/v1/patient", patientRoute);
 app.use("/api/v1/doctor", doctorRoute);
 
 // ✅ Start Server
-const PORT = 8001;
+const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {
   console.log(`✅ Server running on port ${PORT}...`);
 });

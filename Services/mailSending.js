@@ -5,8 +5,8 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false, // Use false for port 587 (STARTTLS)
   auth: {
-    user: "quickcarehealthcare@gmail.com", // Your Gmail address
-    pass: "ssva haoq jxrm jqws", // Your App Password
+    user: process.env.QUICK_CARE_EMAIL, // Your Gmail address
+    pass: process.env.EMAIL_APP_PASSWORD, // Your App Password
   },
   tls: {
     rejectUnauthorized: false, // Prevents SSL issues
@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
 async function mailSender(toUser,SendSub,MessageInHTMLFormat,MessageInTextFormat){
 
   const info = await transporter.sendMail({
-    from: '"QuickCare" quickcarehealthcare@gmail.com', // sender address
+    from: `"QuickCare" ${process.env.QUICK_CARE_EMAIL}`, // sender address
     to: toUser, // list of receivers
     subject: SendSub, // Subject line
     html: MessageInHTMLFormat,
