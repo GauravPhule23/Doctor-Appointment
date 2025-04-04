@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 // ✅ Proper CORS Configuration
 app.use(cors({
-  origin: 'https://quickcare-henna.vercel.app/', // ✅ Allow all origins TEMPORARILY for debugging
+  origin: 'https://quickcare-henna.vercel.app', // ✅ Allow all origins TEMPORARILY for debugging
   credentials: true,
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
   allowedHeaders: "Content-Type, Authorization"
