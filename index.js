@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 // ✅ Proper CORS Configuration
 app.use(cors({
-  origin: process.env.CORS_ORIGIN_URL, // ✅ Allow all origins TEMPORARILY for debugging
+  origin: 'https://quickcare-henna.vercel.app/', // ✅ Allow all origins TEMPORARILY for debugging
   credentials: true,
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
   allowedHeaders: "Content-Type, Authorization"
@@ -56,9 +56,9 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/api/v1/Authentication", authRoute);
-app.use(()=>{
+app.use((req,res,next)=>{
   console.log("aftr authroute");
-  
+  next()
 })
 
 app.use("/api/v1/rating", ratingRoute);
