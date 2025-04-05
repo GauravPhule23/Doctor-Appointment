@@ -5,7 +5,7 @@ const maxSize = 3 * 1024 * 1024; // 7MB (7,340,032 bytes)
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./Public/temp")
+    cb(null, "./tmp")
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname)
