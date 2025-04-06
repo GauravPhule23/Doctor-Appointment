@@ -6,7 +6,7 @@ async function forPatient(req,res,next){
       return next()
     }else{
       
-      return res.status(400).json({message:`${req.user.role} not Authorized to hit this route`})
+      return res.status(400).json(new apiError(400,"Not eligible",`${req.user.role} not Authorized to hit this route`))
     }
   
 }

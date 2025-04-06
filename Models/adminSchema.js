@@ -1,6 +1,7 @@
 const mongoose = require("mongoose")
 const { createHmac, randomBytes } = require("crypto");
 const { createToken } = require("../Services/auth");
+const apiError = require("../Services/apiError");
 
 const adminModel = new mongoose.Schema({
   fullName: { type: String, required: true, },
@@ -23,11 +24,11 @@ adminModel.pre("save", async function (next) {
 
 adminModel.static("checkTokenForAdmin", async function (email, password) {
   const admin = await this.findOne({ email })
-  if (!admin) throw new Error("No admin Found")
+  if (!admin) throw new apiError(404,"No admin Found")
   const salt = admin.salt
   const hashedPassword = admin.password
   const userPassword = createHmac("sha256", salt).update(password).digest("hex")
-  if (userPassword !== hashedPassword) throw new Error("Incorrect password")
+  if (userPassword !== hashedPassword) throw new apiError(404,"Incorrect password","Incorrect password")
   const token = await createToken(admin)
   console.log(token)
   return token
