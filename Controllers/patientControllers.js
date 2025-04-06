@@ -3,6 +3,8 @@ const Doctor = require("../Models/doctorSchema")
 // const Pending = require("../Models/pendingSchema")
 const Appointment = require("../Models/AppointmentSchema")
 const Cancled = require("../Models/cancledSchema")
+const apiError = require("../Services/apiError")
+const apiResponse = require("../Services/apiResponse")
 
 
 async function updatePatientName(fullName, user){
@@ -32,7 +34,7 @@ async function updatePatientpassword(password, user, oldPassword){
     const ispassValid = await patient.isPassCorrect(oldPassword)
     if(!ispassValid){
   
-      throw new Error("old password does not match")
+      throw new apiError(400,"old password does not match")
     }
     patient.password = password;
     patient.save()
@@ -74,35 +76,35 @@ async function updatePatient(req,res){
 
 async function getDoctors(req,res){
   const doctorList = await Doctor.find({}).select("-password -salt")
-  res.status(200).json(doctorList)
+  res.status(200).json(new apiResponse(200,"Doctors ",doctorList))
 }
 
 async function getDoctor(req,res){
   const doctorInfo = await Doctor.findById(req.params.id).select("-password -salt")
   console.log(doctorInfo)
-  res.status(200).json(doctorInfo)
+  res.status(200).json(new apiResponse(200,"Doctor ",doctorInfo))
 }
 
 async function PendingAppointment(req,res){
   const pendings = await Appointment.find({patient:req.user._id,status:"Pending"})
   console.log(pendings)
-  res.status(200).json(pendings)
+  res.status(200).json(new apiResponse(200,"pending ",pendings))
 }
 
 async function approvedAppointment(req,res){
   const approved = await Appointment.find({patient:req.user._id, status:"Approved"})
   console.log(approved)
-  res.status(200).json(approved)
+  res.status(200).json(new apiResponse(200,"approved ",approved))
 }
 async function cancledAppointment(req,res){
   const cancled = await Cancled.find({patient:req.user._id}).populate("appointment")
   console.log(cancled)
-  res.status(200).json(cancled)
+  res.status(200).json(new apiResponse(200,"cancled ",cancled))
 }
 async function completedAppointment(req,res){
   const complete = await Appointment.find({patient:req.user._id})
   console.log(complete)
-  res.status(200).json(complete)
+  res.status(200).json(new apiResponse(200,"complete ",complete))
 }
 
 module.exports = {updatePatient, getDoctors, getDoctor, PendingAppointment, approvedAppointment, cancledAppointment, completedAppointment}
