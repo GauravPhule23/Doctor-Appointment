@@ -1,6 +1,8 @@
 const Patient = require("../Models/patientSchema");
 const Doctor = require("../Models/doctorSchema");
 const uploadOnCLoudinary = require("../Services/cloudinary");
+const apiError = require("../Services/apiError");
+const apiResponse = require("../Services/apiResponse");
 
 async function SignUp(req, res) {
     if(req.body.role == "Patient"){
@@ -10,7 +12,8 @@ async function SignUp(req, res) {
             
     
             if (!fullname || !email || !password || !dob  || !gender) {
-                return res.status(400).json({ error: "Please fill the required fields of Patient" });
+                return res.status(400).json(new apiError(404,"feilds missing","Please fill the required fields of Patient"));
+                
             }
 
             const DpLocalPath = req.file?.path;
@@ -25,9 +28,10 @@ async function SignUp(req, res) {
                 dpUrl:cloudinaryResult
             });
     
-            res.status(201).json({ message: "Patient registered successfully", patient: await Patient.findById(newPatient._id).select("-password -salt") });
+            res.status(201).json(new apiResponse(201,"Patient registered successfully",await Patient.findById(newPatient._id).select("-password -salt")));
+            
         } catch (error) {
-            res.status(500).json({ error: "Internal Server Error 2", details: error.message });
+            res.status(500).json(new apiError(500,"Internal Server Error",error.message));
         }
     }else{
         try {
@@ -38,7 +42,7 @@ async function SignUp(req, res) {
             console.log(fullname, email, password, dob, gender, speciality, experienceOf);
             
             if (!fullname || !email || !password || !speciality || !dob  || !gender || !experienceOf ) {
-                return res.status(400).json({ error: "Please fill the required fields of Doctor" });
+                return res.status(400).json(new apiError(404,"missing feilds","Please fill the required fields of Doctor"));
             }
             console.log("bfr dplocal path");
             const DpLocalPath = req.file?.path;
@@ -58,9 +62,9 @@ async function SignUp(req, res) {
             
             
     
-            res.status(201).json({ message: "Doctor registered successfully", doctor: await Doctor.findById(newDoctor._id).select("-password -salt") });
+            res.status(201).json(new apiResponse(201,"Doctor registered successfully",await Doctor.findById(newDoctor._id).select("-password -salt")));
         } catch (error) {
-            res.status(500).json({ error: "Internal Server Error", details: error.message });
+            res.status(500).json(new apiError(500,"Internal Server Error",error.message));
         }
     
     }
@@ -79,9 +83,10 @@ async function Login(req, res) {
         console.log(email+" "+password);
         try {
             const token = await Patient.checkTokenForPatient(email, password)
-            return res.status(200).cookie("token", token).json({message:token})
+            return res.status(200).cookie("token", token).json(new apiResponse(200,"Patient Logged in successfully",token))
         } catch (error) {
-            res.status(401).json({ error: "Denied authentication", details: error.message });
+            res.status(401).json(new apiError(401,"Denide Authentication",error.message));
+            
         }
         
     }else{
@@ -89,9 +94,9 @@ async function Login(req, res) {
             console.log("inside login Doctor "+email+" "+password);
             
             const token = await Doctor.checkTokenForDoctor(email, password)
-            return res.status(200).cookie("token", token).json({message:token})
+            return res.status(200).cookie("token", token).json(new apiResponse(200,"Doctor Logged in successfully",token))
         } catch (error) {
-            res.status(401).json({ error: "Denied authentication",  details: error.message });
+            res.status(401).json(new apiError(401,"Denide Authentication",error.message));
         }
 
     }
@@ -100,7 +105,7 @@ async function Login(req, res) {
 
 
 async function Logout(req, res) {
-    res.status(200).clearCookie("token").json({message:"logged out successfully"})
+    res.status(200).clearCookie("token").json(new apiResponse(200,"Logged out"))
 }
 
 

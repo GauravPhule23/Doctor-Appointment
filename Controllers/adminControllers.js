@@ -17,7 +17,7 @@ async function SignUp(req, res) {
       email,
       password
     });
-    const NewAdmin = Admin.findById(newAdmin._id).select("-password -salt")
+    const NewAdmin = await Admin.findById(newAdmin._id).select("-password -salt")
     res.status(201).json(new apiResponse(201,"Admin Created Successfully",NewAdmin));
   } catch (error) {
     res.status(500).json(new apiError(500,"internal Server Error",error.message));
