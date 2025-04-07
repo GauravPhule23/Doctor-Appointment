@@ -18,7 +18,9 @@ async function createToken(user){
     fees:user.fees
   }
 
-  const token = await JWT.sign(payload,secreteKey)
+  const token = await JWT.sign(payload,secreteKey,{
+    expiresIn:'1d'
+  })
   return token
  }else{
     const payload ={
@@ -31,7 +33,9 @@ async function createToken(user){
      DP:user.profileUrl,
    
     }
-    const token = await JWT.sign(payload,secreteKey)
+    const token = await JWT.sign(payload,secreteKey,{
+      expiresIn:'1d'
+    })
     return token
  }
 }
