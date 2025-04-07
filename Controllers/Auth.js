@@ -99,7 +99,12 @@ async function Login(req, res) {
             console.log("inside login Doctor "+email+" "+password);
             
             const token = await Doctor.checkTokenForDoctor(email, password)
-            return res.status(200).cookie("token", token).json(new apiResponse(200,"Doctor Logged in successfully",token))
+            return res.status(200).cookie("token", token, {
+                sameSite: 'None',      
+                secure: true,          
+                maxAge: 86400000,      
+                httpOnly: true        
+            }).json(new apiResponse(200, "Patient Logged in successfully", token));
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
         }
