@@ -83,7 +83,10 @@ async function Login(req, res) {
         console.log(email+" "+password);
         try {
             const token = await Patient.checkTokenForPatient(email, password)
-            return res.status(200).cookie("token", token).json(new apiResponse(200,"Patient Logged in successfully",token))
+            return res.status(200).cookie("token", token,{
+                sameSite:'None',
+                secure:true,
+            }).json(new apiResponse(200,"Patient Logged in successfully",token))
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
             
