@@ -7,6 +7,11 @@ const Cancled = require("../Models/cancledSchema")
 const Appointment = require("../Models/AppointmentSchema")
 const apiError = require("../Services/apiError")
 const apiResponse = require("../Services/apiResponse")
+const mailSender = require("../Services/mailSending")
+const {canceledEmailFormat, approvedEmailFormat} = require("../Services/constanst")
+const { model } = require("mongoose")
+
+
 async function appointmentBooking(req, res) {
   if (req.user.role == "Patient") {
     const { AppointmentDate, startTime, endTime } = req.body
@@ -95,9 +100,26 @@ async function appointmentCancle(req, res) {
       reason,
       cancledBY: req.user.role
     })
+    const info = await Cancled.findById(appointmentCancle._id).populate({
+      path:'appointment',
+      populate:[{
+        path:'patient',
+        model:'Patient',
+        select:'fullName email'
+      },
+      {
+        path:'doctor',
+        model:'Doctor',
+        select:'fullName'
+      }]
+      
+    })
+    const cancellation = canceledEmailFormat(info)
+
+    mailSender(info.appointment.patient.email, cancellation.subject,cancellation.bodyHtml,cancellation.bodyText)
 
     res.status(200).json(
-      new apiResponse(200, `Appointment Cancled By ${req.user.role}`, appointmentCancle)
+      new apiResponse(200, `Appointment Cancled By ${req.user.role} and the email is sent to patient`, appointmentCancle)
     )
   } else {
     res.status(401).json(
@@ -135,14 +157,31 @@ async function appointmentApprove(req, res) {
       new apiError(401, `${!info ? "No doctor found to approve" : "Not authorized doctor to approve "} `)
     )
   }
-  const approve = await Appointment.findById(Id)
+  const approve = await Appointment.findById(Id).populate({
+    path:'appointment',
+    populate:[{
+      path:'patient',
+      model:'Patient',
+      select:'fullName email'
+    },
+    {
+      path:'doctor',
+      model:'Doctor',
+      select:'fullName'
+    }]
+    
+  })
   approve.status = "Approved";
   await approve.save()
 
+  
+  const approvedAppointment = approvedEmailFormat(approve)
+
+  mailSender(approve.appointment.patient.email, approvedAppointment.subject,approvedAppointment.bodyHtml,approvedAppointment.bodyText)
 
 
   res.status(200).json(
-    new apiResponse(200, `Appointment Approved By ${req.user.fullName}`)
+    new apiResponse(200, `Appointment Approved By ${req.user.fullName} and email is sent`)
   )
 }
 // async function appointmentApprove(req, res) {
