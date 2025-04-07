@@ -104,7 +104,7 @@ async function Login(req, res) {
                 secure: true,          
                 maxAge: 86400000,      
                 httpOnly: true        
-            }).json(new apiResponse(200, "Patient Logged in successfully", token));
+            }).json(new apiResponse(200, "Doctor Logged in successfully", token));
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
         }
