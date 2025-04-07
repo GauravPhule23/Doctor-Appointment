@@ -86,6 +86,8 @@ async function Login(req, res) {
             return res.status(200).cookie("token", token,{
                 sameSite:'None',
                 secure:true,
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                httpOnly:true
             }).json(new apiResponse(200,"Patient Logged in successfully",token))
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
