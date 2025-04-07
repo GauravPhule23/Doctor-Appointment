@@ -84,9 +84,9 @@ async function Login(req, res) {
         try {
             const token = await Patient.checkTokenForPatient(email, password)
             return res.status(200).cookie("token", token,{
-                sameSite:'None',
+                SameSite:'None',
                 secure:true,
-                maxAge: 24 * 60 * 60 * 1000, // 1 day
+                maxAge: 86400000, // 1 day
                 httpOnly:true
             }).json(new apiResponse(200,"Patient Logged in successfully",token))
         } catch (error) {
