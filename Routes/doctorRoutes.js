@@ -1,5 +1,5 @@
 const express = require("express");
-const { updateDoctor, PendingAppointment, approvedAppointment, cancledAppointment, completedAppointment } = require("../Controllers/doctorsControllers")
+const { updateDoctor, PendingAppointment, approvedAppointment, cancledAppointment, completedAppointment, editAbout } = require("../Controllers/doctorsControllers")
 const forDoctor = require("../Midelware/forDoctor")
 // const {Login, Logout, SignUp} = require("../Controllers/Auth");
 
@@ -12,6 +12,7 @@ router.route("/approvedAppointment").get(forDoctor, approvedAppointment)
 router.route("/completedAppointment").get(forDoctor, completedAppointment)
 router.route("/cancledAppointment").get(forDoctor, cancledAppointment)
 router.route("/pendingAppointment").get(forDoctor, PendingAppointment)
+router.route("/editAbout").patch(forDoctor, editAbout)
 
 
 

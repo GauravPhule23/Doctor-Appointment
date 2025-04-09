@@ -94,4 +94,23 @@ async function completedAppointment(req,res){
   res.status(200).json(new apiResponse(200,"completed appointments",complete))
 }
 
-module.exports = {updateDoctor, PendingAppointment, approvedAppointment, cancledAppointment, completedAppointment}
+async function editAbout(req,res){
+  const about = req.body.about
+  if(!about || about == " "){
+    return res.status(404).json(new apiError(400,"No about provided"))
+  }
+
+  try {
+    await Doctor.findByIdAndUpdate(req.user._id,{
+      $set:{
+        about
+      }
+    })
+    res.status(200).json(new apiResponse(200,"Updated About Us"))
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(new apiError(500,"Internal Server Error",error))
+  }
+}
+
+module.exports = {updateDoctor, PendingAppointment, approvedAppointment, cancledAppointment, completedAppointment, editAbout}

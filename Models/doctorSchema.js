@@ -2,12 +2,14 @@ const mongoose = require("mongoose")
 const {createHmac, randomBytes}=require("crypto")
 const {createToken} = require("../Services/auth");
 const apiError = require("../Services/apiError");
+const { type } = require("os");
 
 const doctorModel = new mongoose.Schema({
   fullName: { type: String, reqired: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   salt: { type: String},
+  about:{type:String},
   dob: { type: Date, required: true },
   ratingAvg: { type: Number, default:0},
   phone: { type: String,},
