@@ -86,7 +86,8 @@ async function Login(req, res) {
             return res.status(200).cookie("token", token, {
                 sameSite: 'None',      
                 secure: true,          
-                maxAge: 86400000,      
+                maxAge: 86400000,
+                expires: 86400000,      
                 httpOnly: true        
             }).json(new apiResponse(200, "Patient Logged in successfully", token));
         } catch (error) {
@@ -102,7 +103,8 @@ async function Login(req, res) {
             return res.status(200).cookie("token", token, {
                 sameSite: 'None',      
                 secure: true,          
-                maxAge: 86400000,      
+                maxAge: 86400000,
+                expires: 86400000,      
                 httpOnly: true        
             }).json(new apiResponse(200, "Doctor Logged in successfully", token));
         } catch (error) {
