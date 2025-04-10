@@ -88,7 +88,7 @@ async function Login(req, res) {
                 secure: true,          
                 maxAge: 86400000,
                 expires: 86400000,  
-                domain: 'https://quickcare-henna.vercel.app',    
+                domain: 'quickcare-henna.vercel.app',    
                 httpOnly: true        
             }).json(new apiResponse(200, "Patient Logged in successfully", token));
         } catch (error) {
@@ -105,7 +105,8 @@ async function Login(req, res) {
                 sameSite: 'None',      
                 secure: true,          
                 maxAge: 86400000,
-                expires: 86400000,      
+                expires: 86400000,   
+                domain: 'quickcare-henna.vercel.app',   
                 httpOnly: true        
             }).json(new apiResponse(200, "Doctor Logged in successfully", token));
         } catch (error) {
