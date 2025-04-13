@@ -20,10 +20,28 @@ const doctorModel = new mongoose.Schema({
   experienceOf: { type: Number, required: true },
   fees: { type: Number,},
   isHoliday: { type: Boolean, default: false },
-  offeredSlot:[{
-    dayRange :{type:String},
-    eveningRange :{type:String}
-  }],
+  offeredSlot: {
+    type: [
+      {
+        startTime: { type: String },
+        endTime: { type: String },
+      },
+    ],
+    default: [
+      { startTime: "10:00 AM", endTime: "10:30 AM" },
+      { startTime: "10:30 AM", endTime: "11:00 AM" },
+      { startTime: "11:00 AM", endTime: "11:30 AM" },
+      { startTime: "11:30 AM", endTime: "12:00 PM" },
+      { startTime: "4:00 PM", endTime: "4:30 PM" },
+      { startTime: "4:30 PM", endTime: "5:00 PM" },
+      { startTime: "5:00 PM", endTime: "5:30 PM" },
+      { startTime: "5:30 PM", endTime: "6:00 PM" },
+      { startTime: "6:00 PM", endTime: "6:30 PM" },
+      { startTime: "6:30 PM", endTime: "7:00 PM" },
+      { startTime: "7:00 PM", endTime: "7:30 PM" },
+      { startTime: "7:30 PM", endTime: "8:00 PM" },
+    ],
+  },
   
 });
 
