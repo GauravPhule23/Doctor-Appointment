@@ -38,7 +38,7 @@ async function SignUp(req, res) {
             console.log("in auth controller");
             console.log(req.body);
             
-            const { fullname, email, password, dob, gender, speciality, experienceOf} = req.body;
+            const { fullName, email, password, dob, gender, speciality, experienceOf} = req.body;
             console.log(fullname, email, password, dob, gender, speciality, experienceOf);
             
             if (!fullname || !email || !password || !speciality || !dob  || !gender || !experienceOf ) {
@@ -50,7 +50,7 @@ async function SignUp(req, res) {
             console.log("aftr cloudinary");
     
             const newDoctor = await Doctor.create({
-                fullname,
+                fullName,
                 email,
                 password,
                 dob,
