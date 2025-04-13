@@ -44,7 +44,7 @@ async function SignUp(req, res) {
             if (!fullname || !email || !password || !speciality || !dob  || !gender || !experienceOf) {
                 return res.status(400).json(new apiError(404,"missing feilds","Please fill the required fields of Doctor"));
             }
-            about = (about!=null)?about:" ";
+            
             console.log("bfr dplocal path");
             const DpLocalPath = req.file?.path;
             const cloudinaryResult = DpLocalPath? await uploadOnCLoudinary(DpLocalPath):""
