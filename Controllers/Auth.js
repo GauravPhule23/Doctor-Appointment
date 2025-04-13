@@ -38,7 +38,7 @@ async function SignUp(req, res) {
             console.log("in auth controller");
             console.log(req.body);
             
-            const { fullName, email, password, dob, gender, speciality, experienceOf} = req.body;
+            const { fullname, email, password, dob, gender, speciality, experienceOf} = req.body;
             console.log(fullname, email, password, dob, gender, speciality, experienceOf);
             
             if (!fullname || !email || !password || !speciality || !dob  || !gender || !experienceOf ) {
@@ -50,7 +50,7 @@ async function SignUp(req, res) {
             console.log("aftr cloudinary");
     
             const newDoctor = await Doctor.create({
-                fullName,
+                fullName:fullname,
                 email,
                 password,
                 dob,
@@ -83,13 +83,14 @@ async function Login(req, res) {
         console.log(email+" "+password);
         try {
             const token = await Patient.checkTokenForPatient(email, password)
-            res.cookie("token", token, {
-  sameSite: 'None',      // for cross-origin
-  secure: true,          // must be true for SameSite=None
-  httpOnly: true,        // hides from JS
-  maxAge: 86400000,      // 1 day
-  expires: new Date(Date.now() + 86400000)
-}).json(new apiResponse(200, "Patient Logged in successfully", token));
+            return res.status(200).cookie("token", token, {
+                sameSite: 'None',      
+                secure: true,          
+                maxAge: 86400000,
+                expires: new Date(Date.now() + 86400000),  
+                domain: '.vercel.app',    
+                httpOnly: true        
+            }).json(new apiResponse(200, "Patient Logged in successfully", token));
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
             
@@ -100,13 +101,14 @@ async function Login(req, res) {
             console.log("inside login Doctor "+email+" "+password);
             
             const token = await Doctor.checkTokenForDoctor(email, password)
-            res.cookie("token", token, {
-  sameSite: 'None',      // for cross-origin
-  secure: true,          // must be true for SameSite=None
-  httpOnly: true,        // hides from JS
-  maxAge: 86400000,      // 1 day
-  expires: new Date(Date.now() + 86400000)
-}).json(new apiResponse(200, "Doctor Logged in successfully 21:55", token));
+            return res.status(200).cookie("token", token, {
+                sameSite: 'None',      
+                secure: true,          
+                maxAge: 86400000,
+                expires: new Date(Date.now() + 86400000),   
+                domain: '.vercel.app',   
+                httpOnly: true        
+            }).json(new apiResponse(200, "Doctor Logged in successfully 21:55", token));
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
         }
