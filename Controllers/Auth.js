@@ -83,14 +83,13 @@ async function Login(req, res) {
         console.log(email+" "+password);
         try {
             const token = await Patient.checkTokenForPatient(email, password)
-            return res.status(200).cookie("token", token, {
-                sameSite: 'None',      
-                secure: true,          
-                maxAge: 86400000,
-                expires: new Date(Date.now() + 86400000),  
-                domain: '.vercel.app',    
-                httpOnly: true        
-            }).json(new apiResponse(200, "Patient Logged in successfully", token));
+            res.cookie("token", token, {
+  sameSite: 'None',      // for cross-origin
+  secure: true,          // must be true for SameSite=None
+  httpOnly: true,        // hides from JS
+  maxAge: 86400000,      // 1 day
+  expires: new Date(Date.now() + 86400000)
+}).json(new apiResponse(200, "Patient Logged in successfully", token));
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
             
@@ -101,14 +100,13 @@ async function Login(req, res) {
             console.log("inside login Doctor "+email+" "+password);
             
             const token = await Doctor.checkTokenForDoctor(email, password)
-            return res.status(200).cookie("token", token, {
-                sameSite: 'None',      
-                secure: true,          
-                maxAge: 86400000,
-                expires: new Date(Date.now() + 86400000),   
-                domain: '.vercel.app',   
-                httpOnly: true        
-            }).json(new apiResponse(200, "Doctor Logged in successfully 21:55", token));
+            res.cookie("token", token, {
+  sameSite: 'None',      // for cross-origin
+  secure: true,          // must be true for SameSite=None
+  httpOnly: true,        // hides from JS
+  maxAge: 86400000,      // 1 day
+  expires: new Date(Date.now() + 86400000)
+}).json(new apiResponse(200, "Doctor Logged in successfully 21:55", token));
         } catch (error) {
             res.status(401).json(new apiError(401,"Denide Authentication",error.message));
         }
