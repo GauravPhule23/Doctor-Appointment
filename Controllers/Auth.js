@@ -38,12 +38,13 @@ async function SignUp(req, res) {
             console.log("in auth controller");
             console.log(req.body);
             
-            const { fullname, email, password, dob, gender, speciality, experienceOf} = req.body;
-            console.log(fullname, email, password, dob, gender, speciality, experienceOf);
+            const { fullname, email, password, dob, gender, speciality, experienceOf, about, fees} = req.body;
+            console.log(fullname, email, password, dob, gender, speciality, experienceOf, about);
             
-            if (!fullname || !email || !password || !speciality || !dob  || !gender || !experienceOf ) {
+            if (!fullname || !email || !password || !speciality || !dob  || !gender || !experienceOf) {
                 return res.status(400).json(new apiError(404,"missing feilds","Please fill the required fields of Doctor"));
             }
+            about = (about!=null)?about:" ";
             console.log("bfr dplocal path");
             const DpLocalPath = req.file?.path;
             const cloudinaryResult = DpLocalPath? await uploadOnCLoudinary(DpLocalPath):""
@@ -53,8 +54,10 @@ async function SignUp(req, res) {
                 fullName:fullname,
                 email,
                 password,
+                about,
                 dob,
                 gender,
+                fees,
                 speciality,
                 experienceOf,
                 dpUrl:cloudinaryResult
