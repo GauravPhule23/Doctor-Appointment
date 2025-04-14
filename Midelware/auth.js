@@ -3,9 +3,11 @@ const { validateToken } = require("../Services/auth")
 function checkToken(cookieName){
   return async function (req,res,next){
     const tokenValue = await req.cookies[cookieName]
-    if(!tokenValue){
+    if (!tokenValue) {
       const authHeader = req.headers.authorization;
-      tokenValue = authHeader.split(" ")[1];
+      if (authHeader && authHeader.startsWith("Bearer ")) {
+        tokenValue = authHeader.split(" ")[1];
+      }
     }
     if(!tokenValue){
       return next()
