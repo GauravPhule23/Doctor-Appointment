@@ -53,7 +53,10 @@ async function appointmentBooking(req, res) {
         new apiError(500, "Internal Server Error", error.message)
       );
     }
-  } 
+  } else {
+    res.status(401).json(
+      new apiError(401, "Doctor or Admin is not authorized to book an appointment.")
+    )
   }
 
 
