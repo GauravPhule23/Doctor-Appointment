@@ -13,7 +13,7 @@ const { model } = require("mongoose")
 
 
 async function appointmentBooking(req, res) {
-  
+  if (req.user.role == "Patient") {
     const { AppointmentDate, startTime, endTime } = req.body
     const patient = req.user._id
     const doctor = req.params.doctorId
@@ -53,11 +53,11 @@ async function appointmentBooking(req, res) {
         new apiError(500, "Internal Server Error", error.message)
       );
     }
-  
+  } 
   }
 
 
-
+}
 
 
 async function appointmentCancle(req, res) {
