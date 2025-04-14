@@ -34,6 +34,10 @@ app.use(cors({
   methods: "GET, HEAD, PUT, PATCH, POST, DELETE",
   allowedHeaders: "Content-Type, Authorization"
 }));
+app.options('*', cors({
+  origin: "https://quickcare-henna.vercel.app",  // Your frontend domain for preflight requests
+  credentials: true
+}));
 app.use((req, res, next) => {
   console.log("aftr cors");
 
