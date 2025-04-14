@@ -5,8 +5,10 @@ function checkToken(cookieName){
     const tokenValue = await req.cookies[cookieName]
     if(!tokenValue){
       const authHeader = req.headers.authorization;
-       if (!authHeader?.startsWith("Bearer ")) return res.status(401).json({ message: "Unauthorized" });
-        tokenValue = authHeader.split(" ")[1];
+      tokenValue = authHeader.split(" ")[1];
+    }
+    if(!tokenValue){
+      return next()
     }
     try {
       
