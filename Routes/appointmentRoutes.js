@@ -7,7 +7,7 @@ const forDoctor = require("../Midelware/forDoctor.js");
 
 const router = express.Router();
 
-router.post("/:doctorId",forPatient,appointmentBooking);// Books the appointment using the data atartTime endTime and Date
+router.post("/:doctorId",appointmentBooking);// Books the appointment using the data atartTime endTime and Date
 router.patch("/cancle/:appointmentId",appointmentCancle);//
 router.patch("/approve/:appointmentId",forDoctor,appointmentApprove);//
 router.patch("/completed/:appointmentId",forDoctor,appointmentComplete);//
