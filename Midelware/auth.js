@@ -5,7 +5,7 @@ function checkToken(cookieName){
     const tokenValue = await req.cookies[cookieName]
     if(!tokenValue){
       console.log("no cookie")
-      return next()
+      return next() // new commit
     }
     try {
       
